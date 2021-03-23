@@ -1,0 +1,239 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-marriage-details-heading" data-cy="MarriageDetailsCreateUpdateHeading">Create or edit a Marriage Details</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_dateOfMarriage">Date Of Marriage</label>
+          <div class="input-group">
+            <input
+              id="field_dateOfMarriage"
+              data-cy="dateOfMarriage"
+              type="text"
+              class="form-control"
+              name="dateOfMarriage"
+              ngbDatepicker
+              #dateOfMarriageDp="ngbDatepicker"
+              formControlName="dateOfMarriage"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="dateOfMarriageDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+          <div
+            *ngIf="
+              editForm.get('dateOfMarriage')!.invalid && (editForm.get('dateOfMarriage')!.dirty || editForm.get('dateOfMarriage')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('dateOfMarriage')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_spouseFullName">Spouse Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spouseFullName"
+            id="field_spouseFullName"
+            data-cy="spouseFullName"
+            formControlName="spouseFullName"
+          />
+          <div
+            *ngIf="
+              editForm.get('spouseFullName')!.invalid && (editForm.get('spouseFullName')!.dirty || editForm.get('spouseFullName')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('spouseFullName')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_placeOfMarriage">Place Of Marriage</label>
+          <input
+            type="text"
+            class="form-control"
+            name="placeOfMarriage"
+            id="field_placeOfMarriage"
+            data-cy="placeOfMarriage"
+            formControlName="placeOfMarriage"
+          />
+          <div
+            *ngIf="
+              editForm.get('placeOfMarriage')!.invalid &&
+              (editForm.get('placeOfMarriage')!.dirty || editForm.get('placeOfMarriage')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('placeOfMarriage')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_spousePlaceOfBirth">Spouse Place Of Birth</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spousePlaceOfBirth"
+            id="field_spousePlaceOfBirth"
+            data-cy="spousePlaceOfBirth"
+            formControlName="spousePlaceOfBirth"
+          />
+          <div
+            *ngIf="
+              editForm.get('spousePlaceOfBirth')!.invalid &&
+              (editForm.get('spousePlaceOfBirth')!.dirty || editForm.get('spousePlaceOfBirth')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('spousePlaceOfBirth')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_marriageNumber">Marriage Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="marriageNumber"
+            id="field_marriageNumber"
+            data-cy="marriageNumber"
+            formControlName="marriageNumber"
+          />
+          <div
+            *ngIf="
+              editForm.get('marriageNumber')!.invalid && (editForm.get('marriageNumber')!.dirty || editForm.get('marriageNumber')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('marriageNumber')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_marriedBefore">Married Before</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="marriedBefore"
+            id="field_marriedBefore"
+            data-cy="marriedBefore"
+            formControlName="marriedBefore"
+          />
+          <div
+            *ngIf="
+              editForm.get('marriedBefore')!.invalid && (editForm.get('marriedBefore')!.dirty || editForm.get('marriedBefore')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('marriedBefore')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_applicant">Applicant</label>
+          <select class="form-control" id="field_applicant" data-cy="applicant" name="applicant" formControlName="applicant">
+            <option *ngIf="editForm.get(['applicant'])!.value == null" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="applicantOption.id === editForm.get('applicant')!.value?.id ? editForm.get('applicant')!.value : applicantOption"
+              *ngFor="let applicantOption of applicantsCollection; trackBy: trackApplicantById"
+            >
+              {{ applicantOption.lastName }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['applicant'])!.invalid && (editForm.get(['applicant'])!.dirty || editForm.get(['applicant'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['applicant'])?.errors?.required"> This field is required. </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_countryOfMarriage">Country Of Marriage</label>
+          <select
+            class="form-control"
+            id="field_countryOfMarriage"
+            data-cy="countryOfMarriage"
+            name="countryOfMarriage"
+            formControlName="countryOfMarriage"
+          >
+            <option *ngIf="editForm.get(['countryOfMarriage'])!.value == null" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="
+                countryOption.id === editForm.get('countryOfMarriage')!.value?.id ? editForm.get('countryOfMarriage')!.value : countryOption
+              "
+              *ngFor="let countryOption of countryOfMarriagesCollection; trackBy: trackCountryById"
+            >
+              {{ countryOption.countryName }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['countryOfMarriage'])!.invalid &&
+            (editForm.get(['countryOfMarriage'])!.dirty || editForm.get(['countryOfMarriage'])!.touched)
+          "
+        >
+          <small class="form-text text-danger" *ngIf="editForm.get(['countryOfMarriage'])?.errors?.required">
+            This field is required.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_spouseCountryOfBirth">Spouse Country Of Birth</label>
+          <select
+            class="form-control"
+            id="field_spouseCountryOfBirth"
+            data-cy="spouseCountryOfBirth"
+            name="spouseCountryOfBirth"
+            formControlName="spouseCountryOfBirth"
+          >
+            <option *ngIf="editForm.get(['spouseCountryOfBirth'])!.value == null" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="
+                countryOption.id === editForm.get('spouseCountryOfBirth')!.value?.id
+                  ? editForm.get('spouseCountryOfBirth')!.value
+                  : countryOption
+              "
+              *ngFor="let countryOption of spouseCountryOfBirthsCollection; trackBy: trackCountryById"
+            >
+              {{ countryOption.countryName }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['spouseCountryOfBirth'])!.invalid &&
+            (editForm.get(['spouseCountryOfBirth'])!.dirty || editForm.get(['spouseCountryOfBirth'])!.touched)
+          "
+        >
+          <small class="form-text text-danger" *ngIf="editForm.get(['spouseCountryOfBirth'])?.errors?.required">
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

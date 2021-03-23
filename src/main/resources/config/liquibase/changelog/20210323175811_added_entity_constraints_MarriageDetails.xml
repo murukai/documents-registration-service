@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity MarriageDetails.
+    -->
+    <changeSet id="20210323175811-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="applicant_id"
+                                 baseTableName="marriage_details"
+                                 constraintName="fk_marriage_details__applicant_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="applicant"/>
+
+        <addForeignKeyConstraint baseColumnNames="country_of_marriage_id"
+                                 baseTableName="marriage_details"
+                                 constraintName="fk_marriage_details__country_of_marriage_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="country"/>
+
+        <addForeignKeyConstraint baseColumnNames="spouse_country_of_birth_id"
+                                 baseTableName="marriage_details"
+                                 constraintName="fk_marriage_details__spouse_country_of_birth_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="country"/>
+
+    </changeSet>
+</databaseChangeLog>

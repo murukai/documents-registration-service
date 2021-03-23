@@ -1,0 +1,112 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-appointment-slot-heading" data-cy="AppointmentSlotCreateUpdateHeading">Create or edit a Appointment Slot</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_timeOfAppointment">Time Of Appointment</label>
+          <div class="d-flex">
+            <input
+              id="field_timeOfAppointment"
+              data-cy="timeOfAppointment"
+              type="datetime-local"
+              class="form-control"
+              name="timeOfAppointment"
+              formControlName="timeOfAppointment"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="
+              editForm.get('timeOfAppointment')!.invalid &&
+              (editForm.get('timeOfAppointment')!.dirty || editForm.get('timeOfAppointment')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('timeOfAppointment')?.errors?.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('timeOfAppointment')?.errors?.ZonedDateTimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_available">Available</label>
+          <input type="checkbox" class="form-check" name="available" id="field_available" data-cy="available" formControlName="available" />
+          <div *ngIf="editForm.get('available')!.invalid && (editForm.get('available')!.dirty || editForm.get('available')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('available')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_maxAppointments">Max Appointments</label>
+          <input
+            type="number"
+            class="form-control"
+            name="maxAppointments"
+            id="field_maxAppointments"
+            data-cy="maxAppointments"
+            formControlName="maxAppointments"
+          />
+          <div
+            *ngIf="
+              editForm.get('maxAppointments')!.invalid &&
+              (editForm.get('maxAppointments')!.dirty || editForm.get('maxAppointments')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('maxAppointments')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('maxAppointments')?.errors?.min">
+              This field should be at least 1.
+            </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('maxAppointments')?.errors?.max">
+              This field cannot be more than 100.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('maxAppointments')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_appointment">Appointment</label>
+          <select class="form-control" id="field_appointment" data-cy="appointment" name="appointment" formControlName="appointment">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                appointmentOption.id === editForm.get('appointment')!.value?.id ? editForm.get('appointment')!.value : appointmentOption
+              "
+              *ngFor="let appointmentOption of appointmentsSharedCollection; trackBy: trackAppointmentById"
+            >
+              {{ appointmentOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

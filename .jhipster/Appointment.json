@@ -1,0 +1,45 @@
+{
+  "name": "Appointment",
+  "fields": [
+    {
+      "fieldName": "dateOfAppointment",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "available",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "appointmentType",
+      "fieldType": "AppointmentType",
+      "fieldValues": "ORDINARY,EMERGENCY"
+    },
+    {
+      "fieldName": "maxAppointments",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMin": "0",
+      "fieldValidateRulesMax": "1000"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "appointmentSlot",
+      "otherEntityRelationshipName": "appointment",
+      "relationshipName": "appointmentSlot"
+    }
+  ],
+  "entityTableName": "appointment",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210323175806"
+}

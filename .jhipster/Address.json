@@ -1,0 +1,76 @@
+{
+  "name": "Address",
+  "fields": [
+    {
+      "fieldName": "streetAddress",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "postalCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "stateProvince",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "placeOfBirth",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "address",
+      "relationshipValidateRules": "required",
+      "relationshipName": "country",
+      "otherEntityField": "countryName",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "address",
+      "relationshipValidateRules": "required",
+      "relationshipName": "countryOfBirth",
+      "otherEntityField": "countryName",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "address",
+      "relationshipValidateRules": "required",
+      "relationshipName": "countryOfResidence",
+      "otherEntityField": "countryName",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "addresses",
+      "relationshipName": "applicant",
+      "otherEntityField": "lastName"
+    }
+  ],
+  "javadoc": "not an ignored comment",
+  "entityTableName": "address",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210323175804"
+}

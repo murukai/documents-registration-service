@@ -1,0 +1,74 @@
+{
+  "name": "MarriageDetails",
+  "fields": [
+    {
+      "fieldName": "dateOfMarriage",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "spouseFullName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "placeOfMarriage",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "spousePlaceOfBirth",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "marriageNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "marriedBefore",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "marriageDetails",
+      "relationshipValidateRules": "required",
+      "relationshipName": "applicant",
+      "otherEntityField": "lastName",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "marriageDetails",
+      "relationshipValidateRules": "required",
+      "relationshipName": "countryOfMarriage",
+      "otherEntityField": "countryName",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "country",
+      "otherEntityRelationshipName": "marriageDetails",
+      "relationshipValidateRules": "required",
+      "relationshipName": "spouseCountryOfBirth",
+      "otherEntityField": "countryName",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "marriage_details",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210323175811"
+}

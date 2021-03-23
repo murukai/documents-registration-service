@@ -41,6 +41,18 @@
     "packageFolder": "com/afrikatek/documentsregistrationservice",
     "jwtSecretKey": "ZjA5ZDI1ZmJhOTU5ODI0NWE0YmRhNDU1MWFjNDU5MzZmYTI2N2RmYmIxY2I2YTgyZWZhZjU0NzVhNzRkMGQxOGM1NWQzYTUwMjMwNTE3MzgzODdkMDc3YTYwNzE1Njg4NDk2MGE1YWNlMWU1MGY2NmZmZDk1YzFmNWVmZmFkYjI=",
     "clientPackageManager": "npm",
-    "languages": ["en", "fr"]
+    "languages": ["en", "fr"],
+    "entities": [
+      "Address",
+      "Applicant",
+      "Appointment",
+      "AppointmentSettings",
+      "AppointmentSlot",
+      "Country",
+      "Holiday",
+      "MarriageDetails",
+      "NextOfKeen"
+    ],
+    "lastLiquibaseTimestamp": 1616522292000
   }
 }

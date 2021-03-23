@@ -1,0 +1,161 @@
+<div>
+  <h2 id="page-heading" data-cy="ApplicantHeading">
+    <span>Applicants</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-applicant"
+        [routerLink]="['/applicant/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span class="hidden-sm-down"> Create a new Applicant </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <form name="searchForm" class="form-inline">
+        <div class="input-group w-100 mt-3">
+          <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query" />
+
+          <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+            <fa-icon icon="search"></fa-icon>
+          </button>
+
+          <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="applicants?.length === 0">
+    <span>No applicants found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="applicants && applicants.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="firstNames"><span>First Names</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="lastName"><span>Last Name</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="initials"><span>Initials</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="gender"><span>Gender</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="email"><span>Email</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="maritalStatus"><span>Marital Status</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="dateOfBirth"><span>Date Of Birth</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="idNumber"><span>Id Number</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="birthEntryNumber"><span>Birth Entry Number</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="eyeColor"><span>Eye Color</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="hairColor"><span>Hair Color</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="visibleMarks"><span>Visible Marks</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="profession"><span>Profession</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="image"><span>Image</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="user.login"><span>User</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="appointmentSlot.timeOfAppointment"><span>Appointment Slot</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let applicant of applicants; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/applicant', applicant.id, 'view']">{{ applicant.id }}</a>
+          </td>
+          <td>{{ applicant.firstNames }}</td>
+          <td>{{ applicant.lastName }}</td>
+          <td>{{ applicant.initials }}</td>
+          <td>{{ applicant.gender }}</td>
+          <td>{{ applicant.email }}</td>
+          <td>{{ applicant.maritalStatus }}</td>
+          <td>{{ applicant.dateOfBirth | formatMediumDate }}</td>
+          <td>{{ applicant.idNumber }}</td>
+          <td>{{ applicant.birthEntryNumber }}</td>
+          <td>{{ applicant.eyeColor }}</td>
+          <td>{{ applicant.hairColor }}</td>
+          <td>{{ applicant.visibleMarks }}</td>
+          <td>{{ applicant.profession }}</td>
+          <td>
+            <a *ngIf="applicant.image" (click)="openFile(applicant.image, applicant.imageContentType)">
+              <img
+                [src]="'data:' + applicant.imageContentType + ';base64,' + applicant.image"
+                style="max-height: 30px"
+                alt="applicant image"
+              />
+            </a>
+            <span *ngIf="applicant.image">{{ applicant.imageContentType }}, {{ byteSize(applicant.image) }}</span>
+          </td>
+          <td>
+            {{ applicant.user?.login }}
+          </td>
+          <td>
+            <div *ngIf="applicant.appointmentSlot">
+              <a [routerLink]="['/appointment-slot', applicant.appointmentSlot?.id, 'view']">{{
+                applicant.appointmentSlot?.timeOfAppointment
+              }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/applicant', applicant.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/applicant', applicant.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(applicant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="applicants && applicants.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

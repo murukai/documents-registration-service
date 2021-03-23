@@ -1,0 +1,148 @@
+<div>
+  <h2 id="page-heading" data-cy="MarriageDetailsHeading">
+    <span>Marriage Details</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-marriage-details"
+        [routerLink]="['/marriage-details/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span class="hidden-sm-down"> Create a new Marriage Details </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <form name="searchForm" class="form-inline">
+        <div class="input-group w-100 mt-3">
+          <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query" />
+
+          <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+            <fa-icon icon="search"></fa-icon>
+          </button>
+
+          <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="marriageDetails?.length === 0">
+    <span>No marriageDetails found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="marriageDetails && marriageDetails.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="dateOfMarriage"><span>Date Of Marriage</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="spouseFullName"><span>Spouse Full Name</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="placeOfMarriage"><span>Place Of Marriage</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="spousePlaceOfBirth"><span>Spouse Place Of Birth</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="marriageNumber"><span>Marriage Number</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="marriedBefore"><span>Married Before</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="applicant.lastName"><span>Applicant</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="countryOfMarriage.countryName"><span>Country Of Marriage</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="spouseCountryOfBirth.countryName">
+            <span>Spouse Country Of Birth</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let marriageDetails of marriageDetails; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/marriage-details', marriageDetails.id, 'view']">{{ marriageDetails.id }}</a>
+          </td>
+          <td>{{ marriageDetails.dateOfMarriage | formatMediumDate }}</td>
+          <td>{{ marriageDetails.spouseFullName }}</td>
+          <td>{{ marriageDetails.placeOfMarriage }}</td>
+          <td>{{ marriageDetails.spousePlaceOfBirth }}</td>
+          <td>{{ marriageDetails.marriageNumber }}</td>
+          <td>{{ marriageDetails.marriedBefore }}</td>
+          <td>
+            <div *ngIf="marriageDetails.applicant">
+              <a [routerLink]="['/applicant', marriageDetails.applicant?.id, 'view']">{{ marriageDetails.applicant?.lastName }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="marriageDetails.countryOfMarriage">
+              <a [routerLink]="['/country', marriageDetails.countryOfMarriage?.id, 'view']">{{
+                marriageDetails.countryOfMarriage?.countryName
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="marriageDetails.spouseCountryOfBirth">
+              <a [routerLink]="['/country', marriageDetails.spouseCountryOfBirth?.id, 'view']">{{
+                marriageDetails.spouseCountryOfBirth?.countryName
+              }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/marriage-details', marriageDetails.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/marriage-details', marriageDetails.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(marriageDetails)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="marriageDetails && marriageDetails.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="marriageDetails">
+      <h2 data-cy="marriageDetailsDetailsHeading"><span>Marriage Details</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ marriageDetails.id }}</span>
+        </dd>
+        <dt><span>Date Of Marriage</span></dt>
+        <dd>
+          <span>{{ marriageDetails.dateOfMarriage | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Spouse Full Name</span></dt>
+        <dd>
+          <span>{{ marriageDetails.spouseFullName }}</span>
+        </dd>
+        <dt><span>Place Of Marriage</span></dt>
+        <dd>
+          <span>{{ marriageDetails.placeOfMarriage }}</span>
+        </dd>
+        <dt><span>Spouse Place Of Birth</span></dt>
+        <dd>
+          <span>{{ marriageDetails.spousePlaceOfBirth }}</span>
+        </dd>
+        <dt><span>Marriage Number</span></dt>
+        <dd>
+          <span>{{ marriageDetails.marriageNumber }}</span>
+        </dd>
+        <dt><span>Married Before</span></dt>
+        <dd>
+          <span>{{ marriageDetails.marriedBefore }}</span>
+        </dd>
+        <dt><span>Applicant</span></dt>
+        <dd>
+          <div *ngIf="marriageDetails.applicant">
+            <a [routerLink]="['/applicant', marriageDetails.applicant?.id, 'view']">{{ marriageDetails.applicant?.lastName }}</a>
+          </div>
+        </dd>
+        <dt><span>Country Of Marriage</span></dt>
+        <dd>
+          <div *ngIf="marriageDetails.countryOfMarriage">
+            <a [routerLink]="['/country', marriageDetails.countryOfMarriage?.id, 'view']">{{
+              marriageDetails.countryOfMarriage?.countryName
+            }}</a>
+          </div>
+        </dd>
+        <dt><span>Spouse Country Of Birth</span></dt>
+        <dd>
+          <div *ngIf="marriageDetails.spouseCountryOfBirth">
+            <a [routerLink]="['/country', marriageDetails.spouseCountryOfBirth?.id, 'view']">{{
+              marriageDetails.spouseCountryOfBirth?.countryName
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/marriage-details', marriageDetails.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

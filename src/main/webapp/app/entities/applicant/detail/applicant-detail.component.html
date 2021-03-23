@@ -1,0 +1,105 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="applicant">
+      <h2 data-cy="applicantDetailsHeading"><span>Applicant</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ applicant.id }}</span>
+        </dd>
+        <dt><span>First Names</span></dt>
+        <dd>
+          <span>{{ applicant.firstNames }}</span>
+        </dd>
+        <dt><span>Last Name</span></dt>
+        <dd>
+          <span>{{ applicant.lastName }}</span>
+        </dd>
+        <dt><span>Initials</span></dt>
+        <dd>
+          <span>{{ applicant.initials }}</span>
+        </dd>
+        <dt><span>Gender</span></dt>
+        <dd>
+          <span>{{ applicant.gender }}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+          <span>{{ applicant.email }}</span>
+        </dd>
+        <dt><span>Marital Status</span></dt>
+        <dd>
+          <span>{{ applicant.maritalStatus }}</span>
+        </dd>
+        <dt><span>Date Of Birth</span></dt>
+        <dd>
+          <span>{{ applicant.dateOfBirth | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Id Number</span></dt>
+        <dd>
+          <span>{{ applicant.idNumber }}</span>
+        </dd>
+        <dt><span>Birth Entry Number</span></dt>
+        <dd>
+          <span>{{ applicant.birthEntryNumber }}</span>
+        </dd>
+        <dt><span>Eye Color</span></dt>
+        <dd>
+          <span>{{ applicant.eyeColor }}</span>
+        </dd>
+        <dt><span>Hair Color</span></dt>
+        <dd>
+          <span>{{ applicant.hairColor }}</span>
+        </dd>
+        <dt><span>Visible Marks</span></dt>
+        <dd>
+          <span>{{ applicant.visibleMarks }}</span>
+        </dd>
+        <dt><span>Profession</span></dt>
+        <dd>
+          <span>{{ applicant.profession }}</span>
+        </dd>
+        <dt><span>Image</span></dt>
+        <dd>
+          <div *ngIf="applicant.image">
+            <a (click)="openFile(applicant.image, applicant.imageContentType)">
+              <img
+                [src]="'data:' + applicant.imageContentType + ';base64,' + applicant.image"
+                style="max-width: 100%"
+                alt="applicant image"
+              />
+            </a>
+            {{ applicant.imageContentType }}, {{ byteSize(applicant.image) }}
+          </div>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ applicant.user?.login }}</span>
+        </dd>
+        <dt><span>Appointment Slot</span></dt>
+        <dd>
+          <div *ngIf="applicant.appointmentSlot">
+            <a [routerLink]="['/appointment-slot', applicant.appointmentSlot?.id, 'view']">{{
+              applicant.appointmentSlot?.timeOfAppointment
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/applicant', applicant.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

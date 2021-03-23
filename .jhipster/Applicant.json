@@ -1,0 +1,127 @@
+{
+  "name": "Applicant",
+  "fields": [
+    {
+      "fieldName": "firstNames",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "initials",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Gender",
+      "fieldValues": "MALE,FEMALE"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "pattern"],
+      "fieldValidateRulesPattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    },
+    {
+      "fieldName": "maritalStatus",
+      "fieldType": "MaritalStatus",
+      "fieldValues": "MARRIED,SINGLE,NEVER_MARRIED,DIVORCED"
+    },
+    {
+      "fieldName": "dateOfBirth",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "idNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "birthEntryNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eyeColor",
+      "fieldType": "EyeColor",
+      "fieldValues": "BROWN,BLACK,BLUE",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "hairColor",
+      "fieldType": "HairColor",
+      "fieldValues": "BLACK,BROWN,BLONDE,RED,WHITE",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "visibleMarks",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "profession",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "applicant",
+      "relationshipName": "addresses"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "applicant",
+      "relationshipValidateRules": "required",
+      "relationshipName": "user",
+      "otherEntityField": "login"
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "marriageDetails",
+      "otherEntityRelationshipName": "applicant",
+      "relationshipName": "marriageDetails",
+      "otherEntityField": "spouseFullName",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "nextOfKeen",
+      "otherEntityRelationshipName": "applicant",
+      "relationshipName": "nextOfKeen",
+      "otherEntityField": "fullName",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "appointmentSlot",
+      "otherEntityRelationshipName": "applicants",
+      "relationshipName": "appointmentSlot",
+      "otherEntityField": "timeOfAppointment"
+    }
+  ],
+  "entityTableName": "applicant",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210323175805"
+}

@@ -1,0 +1,44 @@
+{
+  "name": "AppointmentSettings",
+  "fields": [
+    {
+      "fieldName": "maxOrdinaryAppointments",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMin": "0",
+      "fieldValidateRulesMax": "1000"
+    },
+    {
+      "fieldName": "maxEmergencyAppointments",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMin": "0",
+      "fieldValidateRulesMax": "1000"
+    },
+    {
+      "fieldName": "startingWorkTime",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMin": "0",
+      "fieldValidateRulesMax": "23"
+    },
+    {
+      "fieldName": "endingWorkTime",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMin": "0",
+      "fieldValidateRulesMax": "23"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "appointment_settings",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210323175807"
+}

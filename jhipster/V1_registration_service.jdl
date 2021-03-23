@@ -1,0 +1,137 @@
+/**
+ * not an ignored comment
+ */
+entity Address {
+  streetAddress String required,
+  postalCode String required,
+  city String required,
+  stateProvince String,
+  placeOfBirth String required
+}
+entity Applicant {
+  firstNames String required,
+  lastName String required,
+  initials String required,
+  gender Gender,
+  email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+  maritalStatus MaritalStatus,
+  dateOfBirth LocalDate required,
+  idNumber String required,
+  birthEntryNumber String required,
+  eyeColor EyeColor required,
+  hairColor HairColor required,
+  visibleMarks String required,
+  profession String required,
+  image ImageBlob
+}
+entity Appointment {
+  dateOfAppointment Instant required,
+  available Boolean required,
+  appointmentType AppointmentType,
+  maxAppointments Integer required min(0) max(1000)
+}
+
+entity AppointmentSettings {
+	maxOrdinaryAppointments Integer required min(0) max(1000),
+    maxEmergencyAppointments Integer required min(0) max(1000),
+    startingWorkTime Integer required min(0) max(23),
+    endingWorkTime Integer required min(0) max(23)
+}
+
+entity AppointmentSlot {
+	timeOfAppointment Instant required,
+    available Boolean required,
+    maxAppointments Integer required min(1) max(100)
+}
+
+entity Country {
+  countryName String required,
+  countryCode String required,
+  callingCode String required,
+  subRegion String,
+  region String,
+  population Integer,
+  timeZone String maxlength(15),
+  numericCode Integer
+}
+entity Holiday {
+  name String required,
+  month HolidayMonth required,
+  day Integer required min(1) max(31)
+}
+entity MarriageDetails {
+  dateOfMarriage LocalDate required,
+  spouseFullName String required,
+  placeOfMarriage String required,
+  spousePlaceOfBirth String required,
+  marriageNumber String required,
+  marriedBefore Boolean required
+}
+entity NextOfKeen {
+  fullName String required,
+  address String required,
+  cellphone String required
+}
+enum Gender {
+  MALE,
+  FEMALE
+}
+enum MaritalStatus {
+  MARRIED,
+  SINGLE,
+  NEVER_MARRIED,
+  DIVORCED
+}
+enum EyeColor {
+  BROWN,
+  BLACK,
+  BLUE
+}
+enum HairColor {
+  BLACK,
+  BROWN,
+  BLONDE,
+  RED,
+  WHITE
+}
+enum AppointmentType {
+  ORDINARY,
+  EMERGENCY
+}
+enum HolidayMonth {
+  JANUARY,
+  FEBRUARY,
+  MARCH,
+  APRIL,
+  MAY,
+  JUNE,
+  JULY,
+  AUGUST,
+  SEPTEMBER,
+  OCTOBER,
+  NOVEMBER,
+  DECEMBER
+}
+
+relationship OneToOne {
+  Address{country(countryName) required} to Country,
+  Address{countryOfBirth(countryName) required} to Country,
+  Address{countryOfResidence(countryName) required} to Country,
+  MarriageDetails{applicant(lastName) required} to Applicant{marriageDetails(spouseFullName)},
+  NextOfKeen{applicant(lastName) required} to Applicant{nextOfKeen(fullName)},
+  MarriageDetails{countryOfMarriage(countryName) required} to Country,
+  MarriageDetails{spouseCountryOfBirth(countryName) required} to Country
+}
+relationship OneToMany {
+  Applicant{addresses} to Address{applicant(lastName)},
+  AppointmentSlot{applicants} to Applicant{appointmentSlot(timeOfAppointment)},
+  Appointment{appointmentSlot} to AppointmentSlot{appointment}
+}
+
+relationship ManyToOne {
+	Applicant{user(login) required} to User
+}
+
+dto Address, Applicant, Appointment, Country, Holiday, MarriageDetails, NextOfKeen, AppointmentSlot, AppointmentSettings with mapstruct
+paginate Address, Applicant, Appointment, Country, Holiday, MarriageDetails, NextOfKeen, AppointmentSlot, AppointmentSettings with pagination
+service Address, Applicant, Appointment, Country, Holiday, MarriageDetails, NextOfKeen, AppointmentSlot, AppointmentSettings with serviceClass

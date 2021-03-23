@@ -1,0 +1,121 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-country-heading" data-cy="CountryCreateUpdateHeading">Create or edit a Country</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_countryName">Country Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="countryName"
+            id="field_countryName"
+            data-cy="countryName"
+            formControlName="countryName"
+          />
+          <div *ngIf="editForm.get('countryName')!.invalid && (editForm.get('countryName')!.dirty || editForm.get('countryName')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('countryName')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_countryCode">Country Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="countryCode"
+            id="field_countryCode"
+            data-cy="countryCode"
+            formControlName="countryCode"
+          />
+          <div *ngIf="editForm.get('countryCode')!.invalid && (editForm.get('countryCode')!.dirty || editForm.get('countryCode')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('countryCode')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_callingCode">Calling Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="callingCode"
+            id="field_callingCode"
+            data-cy="callingCode"
+            formControlName="callingCode"
+          />
+          <div *ngIf="editForm.get('callingCode')!.invalid && (editForm.get('callingCode')!.dirty || editForm.get('callingCode')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('callingCode')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_subRegion">Sub Region</label>
+          <input type="text" class="form-control" name="subRegion" id="field_subRegion" data-cy="subRegion" formControlName="subRegion" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_region">Region</label>
+          <input type="text" class="form-control" name="region" id="field_region" data-cy="region" formControlName="region" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_population">Population</label>
+          <input
+            type="number"
+            class="form-control"
+            name="population"
+            id="field_population"
+            data-cy="population"
+            formControlName="population"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_timeZone">Time Zone</label>
+          <input type="text" class="form-control" name="timeZone" id="field_timeZone" data-cy="timeZone" formControlName="timeZone" />
+          <div *ngIf="editForm.get('timeZone')!.invalid && (editForm.get('timeZone')!.dirty || editForm.get('timeZone')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('timeZone')?.errors?.maxlength">
+              This field cannot be longer than 15 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_numericCode">Numeric Code</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numericCode"
+            id="field_numericCode"
+            data-cy="numericCode"
+            formControlName="numericCode"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

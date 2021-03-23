@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="nextOfKeen">
+      <h2 data-cy="nextOfKeenDetailsHeading"><span>Next Of Keen</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ nextOfKeen.id }}</span>
+        </dd>
+        <dt><span>Full Name</span></dt>
+        <dd>
+          <span>{{ nextOfKeen.fullName }}</span>
+        </dd>
+        <dt><span>Address</span></dt>
+        <dd>
+          <span>{{ nextOfKeen.address }}</span>
+        </dd>
+        <dt><span>Cellphone</span></dt>
+        <dd>
+          <span>{{ nextOfKeen.cellphone }}</span>
+        </dd>
+        <dt><span>Applicant</span></dt>
+        <dd>
+          <div *ngIf="nextOfKeen.applicant">
+            <a [routerLink]="['/applicant', nextOfKeen.applicant?.id, 'view']">{{ nextOfKeen.applicant?.lastName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/next-of-keen', nextOfKeen.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="appointment">
+      <h2 data-cy="appointmentDetailsHeading"><span>Appointment</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ appointment.id }}</span>
+        </dd>
+        <dt><span>Date Of Appointment</span></dt>
+        <dd>
+          <span>{{ appointment.dateOfAppointment | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Available</span></dt>
+        <dd>
+          <span>{{ appointment.available }}</span>
+        </dd>
+        <dt><span>Appointment Type</span></dt>
+        <dd>
+          <span>{{ appointment.appointmentType }}</span>
+        </dd>
+        <dt><span>Max Appointments</span></dt>
+        <dd>
+          <span>{{ appointment.maxAppointments }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/appointment', appointment.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
